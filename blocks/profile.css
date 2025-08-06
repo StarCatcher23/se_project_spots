@@ -45,6 +45,9 @@
 
 .profile__edit-btn {
   margin-top: auto;
+  background-color: #fcf5e5; /* Default background color */
+  color: black;
+  padding: 10px 20px;
 }
 
 .profile__add-btn {
