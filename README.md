@@ -37,6 +37,10 @@ By leveraging these technologies, the project achieves consistent visual present
 
 - [Link to the project on Github](https://github.com/StarCatcher23/se_project_spots)
 
+**Powerpoint recording**
+
+- [Link to my project recording on powerpoint] (https://1drv.ms/p/c/ae9010f8b4f8eeed/EZnjZHwFW11EmKOYyJzG3oQBmS1BnvCC5CemCCbpkYPuHA?e=VhywKW)
+
 **Images**
 
 ![alt text](<bessie tiny png.png>)
