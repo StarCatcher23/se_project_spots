@@ -1,9 +1,6 @@
 .profile {
   display: flex;
-  flex-direction: column;
-  max-width: 288px;
-  align-items: center;
-  text-align: center;
+  justify-content: space-around;
   padding: 34px 0 20px;
   padding-top: 20px;
   border-bottom: 1px rgba(33, 33, 33, 0.4) solid;
@@ -13,17 +10,21 @@
   height: 190px;
   width: 190px;
   margin-bottom: 12px;
-  margin: 0 0 12px;
+  margin: 0;
+  border-radius: 10px;
 }
 
 .profile__column {
   display: flex;
   flex-direction: column;
-  margin: 0 0 20px;
+  margin: 0 0 0 20px;
 }
 
 .profile__name {
   margin: 0 0 12px;
+  line-height: 100%;
+  font-size: 32px;
+  color: black;
   font-weight: 500;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -41,18 +42,49 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   max-width: 420px;
+  line-height: 100%;
+  font-size: 16px;
+  color: black;
+  opacity: 70%;
 }
 
 .profile__edit-btn {
+  padding: 0;
+  margin: 0;
   margin-top: auto;
+  margin-right: auto;
   background-color: #fcf5e5; /* Default background color */
-  color: black;
+  color: #212121;
+  opacity: 70%;
   padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: 500;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.profile__edit-btn:hover {
+  background-color: #f0e6d2; /* Slightly darker shade for hover */
+  opacity: 1;
 }
 
 .profile__add-btn {
-  margin-left: 0;
-  width: 100%;
+  width: 157px;
+  height: 52px;
+  margin-left: auto;
+  margin-top: auto;
+  color: white;
+  background-color: black;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.profile__add-btn:hover {
+  background-color: #333; /* Slightly lighter black */
+  color: #fcf5e5; /* Soft contrast color */
+  opacity: 0.9;
 }
 
 @media screen and (max-width: 627px) {
@@ -67,7 +99,7 @@
   .profile__avatar {
     margin: 0 0 12px;
     height: 80px;
-    width: 80%;
+    width: 80px;
   }
 
   .profile__name {
