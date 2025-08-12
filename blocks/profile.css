@@ -126,5 +126,6 @@
 
   .profile__edit-btn {
     display: block;
-    text-align: center;
+    margin-right: 0;
+  }
 }
