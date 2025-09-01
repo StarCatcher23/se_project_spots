@@ -65,7 +65,9 @@
 }
 
 .profile__edit-btn:hover {
-  opacity: 1;
+  visibility: hidden;
+  opacity: 70%;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
 .profile__add-btn {
@@ -81,11 +83,12 @@
   color: #fcf5e5;
   background-color: #212121;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 
 .profile__add-btn:hover {
-  opacity: 0.8;
+  visibility: hidden;
+  opacity: 70%;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
 @media screen and (max-width: 627px) {

@@ -43,6 +43,11 @@
   border: none; /* Shortened border-style declaration */
 }
 
+.modal__close-btn:hover {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
 .modal__title {
   margin: 0 0 32px;
   color: #212121;
@@ -87,6 +92,11 @@
   padding-right: 32px;
   padding-bottom: 18px;
   padding-left: 32px;
+}
+
+.modal__submit-btn:hover {
+  opacity: 1;
+  transition-delay: 0s;
 }
 
 @media screen and (max-width: 627px) {
