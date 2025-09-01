@@ -3,7 +3,7 @@
 }
 
 /* Mobile view for 320px screens */
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 627px) {
   .content {
     padding: 0 16px;
   }
