@@ -33,6 +33,7 @@
   background-color: #fff;
   padding: 32px 50px;
   position: relative;
+  box-sizing: border-box;
 }
 
 .modal__close-btn {
@@ -113,11 +114,16 @@
     height: 20px;
   }
 
+  .modal__close-btn {
+    top: 16px;
+    right: 16px;
+  }
+
   .modal__container {
-    max-width: 276px;
+    padding: 22px 12px 12px;
   }
 
   .modal__submit-btn {
-    max-width: none;
+    width: 100%;
   }
 }
