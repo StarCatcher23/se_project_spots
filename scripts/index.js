@@ -40,11 +40,11 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
-  openModal(editProfileModal);
+  openModal(newPostModal);
 });
 
 newPostCloseBtn.addEventListener("click", function () {
-  closeModal(editProfileModal);
+  closeModal(newPostModal);
 });
 
 function handleEditProfileSubmit(evt) {
@@ -62,7 +62,7 @@ function handleAddCardSubmit(evt) {
   const captionInput = newPostCaptionInput.value;
   console.log(imageLink);
   console.log(captionInput);
-  closeModal(editProfileModal);
+  closeModal(newPostModal);
   // Close the modal.
 }
 
