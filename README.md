@@ -35,7 +35,7 @@ By leveraging these technologies, the project achieves consistent visual present
 
 **Github**
 
-- [Link to the project on Github](https://github.com/StarCatcher23/se_project_spots)
+- Link to the project on Github: https://github.com/StarCatcher23/se_project_spots.git
 
 **Powerpoint recording**
 
