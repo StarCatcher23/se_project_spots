@@ -100,12 +100,20 @@ editProfileForm.addEventListener("submit", handleEditProfileSubmit);
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
+
   const imageLink = newPostImageInput.value;
   const captionInput = newPostCaptionInput.value;
-  console.log(imageLink);
-  console.log(captionInput);
+
+  const newCardData = {
+    name: captionInput,
+    link: imageLink,
+  };
+
+  const newCardElement = getCardElement(newCardData);
+  cardsList.prepend(newCardElement); // Adds the new card to the top of the list
+
+  newPostForm.reset(); // Clears the form inputs
   closeModal(newPostModal);
-  // Close the modal.
 }
 
 // Create the submit listener.
