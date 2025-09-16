@@ -14,9 +14,10 @@
 .card__image:hover {
   opacity: 0.4;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
 }
+
 .card__delete-btn {
+  z-index: 1;
   width: 32px;
   height: 32px;
   position: absolute;
@@ -24,7 +25,8 @@
   right: 10px;
   background-image: url(../images/defaultdeletebtn1.svg);
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 12px 15px;
+  background-position: center;
   border: none;
   background-color: black;
   opacity: 0.4;
@@ -34,8 +36,8 @@
 
 .card__delete-btn:hover {
   opacity: 1;
-  transform: scale(1.1);
   background-image: url(../images/defaultdeletehoverbtn.svg);
+  background-size: contain;
 }
 
 .card__content {
@@ -90,11 +92,6 @@
   .card__image {
     height: 288px;
     width: 288px;
-  }
-
-  .card__delete-btn {
-    top: 9px;
-    left: 10px;
   }
 
   .card__title {

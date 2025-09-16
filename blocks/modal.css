@@ -1,4 +1,5 @@
 .modal {
+  z-index: 2;
   background-color: #00000080;
   position: fixed;
   top: 0;
@@ -55,9 +56,8 @@
   width: 40px;
   height: 40px;
   position: absolute;
-  top: 20px;
-  right: 20px;
-  /* other styles */
+  top: 0;
+  right: -35px;
   cursor: pointer;
   opacity: 0.4; /* Adjusted opacity value */
 }
@@ -136,23 +136,24 @@
 }
 
 .modal__caption {
-  /* TODO - need to style */
   color: #ffffff;
   background-color: black;
-  width: 198px;
-  height: 24px;
   line-height: 120%;
   font-size: 20px;
-  text-align: center;
   border-radius: 8px;
   letter-spacing: 0;
-  top: 4px;
-  right: 8px;
-  bottom: 4px;
-  left: 8px;
+  padding: 4px 8px;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  margin: 0;
 }
 
 @media screen and (max-width: 480px) {
+  .modal__caption {
+    font-size: 16px;
+  }
+
   .modal__title {
     margin: 0 0 20px;
     font-size: 20px;
