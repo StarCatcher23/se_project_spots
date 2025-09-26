@@ -61,18 +61,26 @@
               <input
                 id="profile-name-input"
                 type="text"
+                minlength="2"
+                maxlength="40"
+                required
                 class="modal__input"
                 placeholder="Type your name"
               />
+              <span class="modal__error"></span>
             </label>
             <label for="profile-description-input" class="modal__label">
               Description
               <input
                 id="profile-description-input"
                 type="text"
+                minlength="2"
+                maxlength="200"
+                required
                 class="modal__input"
                 placeholder="Describe yourself"
               />
+              <span class="modal__error"></span>
             </label>
             <button type="submit" class="modal__submit-btn">Save</button>
           </form>
@@ -90,18 +98,24 @@
               <input
                 id="card-image-input"
                 type="url"
+                required
                 class="modal__input"
                 placeholder="Place a link to the picture"
               />
+              <span class="modal__error"></span>
             </label>
             <label for="card-caption-input" class="modal__label">
               Caption
               <input
                 id="card-caption-input"
                 type="text"
+                minlength="2"
+                maxlength="30"
+                required
                 class="modal__input"
                 placeholder="Type your caption"
               />
+              <span class="modal__error"></span>
             </label>
             <button type="submit" class="modal__submit-btn">Save</button>
           </form>
