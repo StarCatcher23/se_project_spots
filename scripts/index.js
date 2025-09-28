@@ -1,3 +1,5 @@
+//TODO-pass settings object to the validation functions that are called in this file
+
 const initialCards = [
   {
     name: "Golden Gate Bridge",
@@ -109,12 +111,6 @@ previewModalCloseBtn.addEventListener("click", function () {
 editProfileBtn.addEventListener("click", function () {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
-  //Optional
-  //EditForm vs EditProfileForm
-  resetValidation(editProfileForm, [
-    editProfileNameInput,
-    editProfileDescriptionInput,
-  ]);
   openModal(editProfileModal);
 });
 
