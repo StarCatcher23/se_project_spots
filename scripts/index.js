@@ -96,12 +96,26 @@ function getCardElement(data) {
   return cardElement;
 }
 
+function handleEscape(evt) {
+  if (evt.key === "Escape") {
+    // Find the currently open modal and close it
+    const openModal = document.querySelector(".modal_is-opened");
+    if (openModal) {
+      closeModal(openModal);
+    }
+  }
+}
+
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+  // Add the Escape key listener when modal opens
+  document.addEventListener("keydown", handleEscape);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
+  // Remove the Escape key listener when modal closes
+  document.removeEventListener("keydown", handleEscape);
 }
 
 previewModalCloseBtn.addEventListener("click", function () {
@@ -119,11 +133,23 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
+  // Just open the modal - don't reset anything yet
   openModal(newPostModal);
+
+  // The openModal function should handle:
+  // - Adding the CSS class
+  // - Setting up Escape key listener
+  // - Setting up overlay click listener
 });
 
-newPostCloseBtn.addEventListener("click", function () {
+// Only reset the form AFTER successful submission
+newPostForm.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  // ... handle form submission ...
+
+  // Only if submission is successful:
   closeModal(newPostModal);
+  newPostForm.reset(); // Reset ONLY after success
 });
 
 function handleEditProfileSubmit(evt) {
