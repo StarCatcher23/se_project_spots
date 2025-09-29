@@ -96,25 +96,28 @@ function getCardElement(data) {
   return cardElement;
 }
 
+//This function closes modal if the escape key is pressed
 function handleEscape(evt) {
   if (evt.key === "Escape") {
-    // Find the currently open modal and close it
-    const openModal = document.querySelector(".modal_is-opened");
-    if (openModal) {
-      closeModal(openModal);
+    const openedModal = document.querySelector(".modal_is-opened"); // Find the opened modal
+    if (openedModal) {
+      closeModal(openedModal); // Replace with your modal close function
     }
   }
 }
 
+// This function opens a modal
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
   // Add the Escape key listener when modal opens
+  // Listen for a keypress, then call the handle Escape function
   document.addEventListener("keydown", handleEscape);
 }
 
+//This function closes a modal
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
-  // Remove the Escape key listener when modal closes
+  // Removes the listener Escape
   document.removeEventListener("keydown", handleEscape);
 }
 
@@ -140,6 +143,10 @@ newPostBtn.addEventListener("click", function () {
   // - Adding the CSS class
   // - Setting up Escape key listener
   // - Setting up overlay click listener
+});
+
+newPostCloseBtn.addEventListener("click", function () {
+  closeModal(newPostModal);
 });
 
 // Only reset the form AFTER successful submission
@@ -175,14 +182,40 @@ function handleAddCardSubmit(evt) {
   cardsList.prepend(newCardElement); // Adds the new card to the top of the list
 
   newPostForm.reset(); // Clears the form inputs
-  disableButton(cardSubmitBtn);
+  disableButton(cardSubmitBtn, settings);
   closeModal(newPostModal);
 }
 
-// Create the submit listener.
-newPostForm.addEventListener("submit", handleAddCardSubmit);
+document.addEventListener("click", (evt) => {
+  if (
+    evt.target.classList.contains("modal") &&
+    evt.target.classList.contains("modal_is-opened")
+  ) {
+    closeModal(evt.target); // closes the modal that was clicked
+  }
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal_is-opened");
+    if (openedModal) {
+      closeModal(openedModal); // Replace with your modal close function
+    }
+  }
+});
 
 initialCards.forEach(function (item) {
   const cardElement = getCardElement(item);
   cardsList.append(cardElement);
 });
+
+//Todo;
+// Add evemt listener to the new post close button- DONE
+
+// create function called handleEscape using:
+// if (evt.key === "Escape") {
+//    const openedModal = document.querySelector(".modal_is-opened");
+//    if (openedModal) {
+//      closeModal(openedModal); // Replace with your modal close function
+//    }
+//  } DONE

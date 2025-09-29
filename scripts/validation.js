@@ -21,11 +21,16 @@ const hideInputError = (formEl, inputEl, config) => {
   errorMsgEl.classList.remove(config.errorClass);
 };
 
-const checkInputValidity = (formEl, inputEl) => {
+const checkInputValidity = (formEl, inputEl, config) => {
   if (!inputEl.validity.valid) {
-    showInputError(formEl, inputEl, inputEl.validationMessage);
+    showInputError(
+      formEl,
+      inputEl,
+      inputEl.validationMessage,
+      config // ✅ pass the full config object
+    );
   } else {
-    hideInputError(formEl, inputEl);
+    hideInputError(formEl, inputEl, config); // ✅ pass the full config object
   }
 };
 
@@ -36,24 +41,23 @@ const hasInvalidInput = (inputList) => {
 };
 
 const toggleButtonState = (inputList, buttonEl, config) => {
-  if (hasInvalidInput((inputList)) {
+  if (hasInvalidInput(inputList)) {
     buttonEl.disabled = true;
-    buttonEl.classList.add(config.inactiveButtonClass); // Add the class for styling
+    buttonEl.classList.add(config.inactiveButtonClass);
   } else {
     buttonEl.disabled = false;
-    buttonEl.classList.remove(config.inactiveButtonClass); // Remove the class for styling
-  });
+    buttonEl.classList.remove(config.inactiveButtonClass);
+  }
 };
 
 function disableButton(buttonEl, config) {
   buttonEl.classList.add(config.inactiveButtonClass);
   buttonEl.disabled = true;
-};
+}
 
-
-const resetValidation = (formEl, inputList) => {
+const resetValidation = (formEl, inputList, config) => {
   inputList.forEach((input) => {
-    hideInputError(formEl, input);
+    hideInputError(formEl, input, config);
   });
 };
 
