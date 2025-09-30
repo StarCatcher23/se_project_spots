@@ -55,10 +55,18 @@ function disableButton(buttonEl, config) {
   buttonEl.disabled = true;
 }
 
-const resetValidation = (formEl, inputList, config) => {
+const resetValidation = (formEl, config) => {
+  // Get fresh references to form elements
+  const inputList = Array.from(formEl.querySelectorAll(config.inputSelector));
+  const buttonElement = formEl.querySelector(config.submitButtonSelector);
+
+  // Clear all error states
   inputList.forEach((input) => {
     hideInputError(formEl, input, config);
   });
+
+  // Recalculate if button should be enabled/disabled
+  toggleButtonState(inputList, buttonElement, config);
 };
 
 const setEventListeners = (formEl, config) => {

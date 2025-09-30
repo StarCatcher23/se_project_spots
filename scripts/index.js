@@ -128,6 +128,7 @@ previewModalCloseBtn.addEventListener("click", function () {
 editProfileBtn.addEventListener("click", function () {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
+  resetValidation(editProfileForm, settings);
   openModal(editProfileModal);
 });
 
@@ -136,27 +137,19 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
-  // Just open the modal - don't reset anything yet
+  newPostImageInput.value = newPostImageInput.textContent;
+  newPostCaptionInput.value = newPostCaptionInput.textContent;
+  resetValidation(newPostBtn, settings);
   openModal(newPostModal);
+});
 
-  // The openModal function should handle:
-  // - Adding the CSS class
-  // - Setting up Escape key listener
-  // - Setting up overlay click listener
+newPostBtn.addEventListener("click", function () {
+  resetValidation(newPostForm, settings); // make sure button resets
+  openModal(newPostModal);
 });
 
 newPostCloseBtn.addEventListener("click", function () {
   closeModal(newPostModal);
-});
-
-// Only reset the form AFTER successful submission
-newPostForm.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-  // ... handle form submission ...
-
-  // Only if submission is successful:
-  closeModal(newPostModal);
-  newPostForm.reset(); // Reset ONLY after success
 });
 
 function handleEditProfileSubmit(evt) {
