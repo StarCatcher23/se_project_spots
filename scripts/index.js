@@ -137,13 +137,6 @@ editProfileCloseBtn.addEventListener("click", function () {
 });
 
 newPostBtn.addEventListener("click", function () {
-  newPostImageInput.value = newPostImageInput.textContent;
-  newPostCaptionInput.value = newPostCaptionInput.textContent;
-  resetValidation(newPostBtn, settings);
-  openModal(newPostModal);
-});
-
-newPostBtn.addEventListener("click", function () {
   resetValidation(newPostForm, settings); // make sure button resets
   openModal(newPostModal);
 });
@@ -178,6 +171,8 @@ function handleAddCardSubmit(evt) {
   disableButton(cardSubmitBtn, settings);
   closeModal(newPostModal);
 }
+
+newPostForm.addEventListener("submit", handleAddCardSubmit);
 
 document.addEventListener("click", (evt) => {
   if (
