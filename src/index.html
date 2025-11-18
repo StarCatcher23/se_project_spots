@@ -12,20 +12,20 @@
   <body>
     <div class="page">
       <header class="header">
-        <img src="./images/logo.svg" alt="Spot logo" class="header__logo" />
+        <img src="<%=require('./images/logo.svg')%>" alt="Logo" />
       </header>
       <main class="content">
         <section class="profile page__section">
           <img
-            src="./images/spots-images/avatar.jpg"
+            src="<%=require('./images/spots-images/avatar.jpg')%>"
             alt="Bessie Coleman"
-            class="profile__avatar"
           />
           <div class="profile__column">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
             <button type="button" class="profile__edit-btn">
-              <img src="./images/pencil.svg" alt="Pencil icon" />Edit profile
+              <img src="<%=require('./images/pencil.svg')%>" alt="edit pencil"
+              Edit profile
             </button>
           </div>
           <button type="button" class="profile__add-btn">+New Post</button>
@@ -51,7 +51,10 @@
       <div class="modal" id="edit-profile-modal">
         <div class="modal__container">
           <button type="button" class="modal__close-btn">
-            <img src="./images/CloseIcon.png" alt="close icon" />
+            <img
+              src="<%=require('./images/CloseIcon.png')%>"
+              alt="EditProfileCloseIcon"
+            />
           </button>
           <h2 class="modal__title">Edit profile</h2>
           <form class="modal__form" id="edit-profile-form" novalidate>
@@ -91,7 +94,10 @@
       <div class="modal" id="new-post-modal">
         <div class="modal__container">
           <button type="button" class="modal__close-btn">
-            <img src="./images/CloseIcon.png" alt="close icon" />
+            <img
+              src="<%=require('./images/CloseIcon.png')%>"
+              alt="NewPostCloseIcon"
+            />
           </button>
           <h2 class="modal__title">New post</h2>
           <form class="modal__form" id="card-form" novalidate>
