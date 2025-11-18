@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { type } = require("os");
 
 module.exports = {
   entry: {
@@ -12,7 +13,6 @@ module.exports = {
     filename: "main.js",
     publicPath: "",
   },
-
   mode: "development",
   devtool: "inline-source-map",
   stats: "errors-only",
@@ -60,6 +60,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      minify: false,
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
