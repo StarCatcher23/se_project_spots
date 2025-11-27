@@ -40,6 +40,7 @@ By leveraging these technologies, the project achieves consistent visual present
 **Github Pages**
 
 - [Link to Github pages](https://github.com/StarCatcher23/StarCatcher23.git)
+  (https://StarCatcher23.github.io/se_project_spots)
 
 **Powerpoint recording**
 
