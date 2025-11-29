@@ -5,7 +5,7 @@ import {
   settings,
   disableButton,
 } from "../scripts/validation.js";
-import Api from "../scripts/Api.js";
+import Api from "../utils/Api.js";
 
 const initialCards = [
   {
@@ -47,13 +47,17 @@ const api = new Api({
   },
 });
 
-api.getInitialCards().then((cards) => {
-  console.log(cards);
-  cards.forEach((item) => {
-    const cardElement = getCardElement(item);
-    cardsList.append(cardElement);
+api
+  .getInitialCards()
+  .then((cards) => {
+    cards.forEach((item) => {
+      const cardElement = getCardElement(item);
+      cardsList.append(cardElement);
+    });
+  })
+  .catch((err) => {
+    console.error("Error loading cards:", err);
   });
-});
 
 //profile elements
 const editProfileBtn = document.querySelector(".profile__edit-btn");
