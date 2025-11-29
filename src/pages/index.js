@@ -5,6 +5,7 @@ import {
   settings,
   disableButton,
 } from "../scripts/validation.js";
+import Api from "../scripts/Api.js";
 
 const initialCards = [
   {
@@ -37,6 +38,22 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "537eed0e-557c-451f-966a-0b9255783f43",
+    "Content-Type": "application/json",
+  },
+});
+
+api.getInitialCards().then((cards) => {
+  console.log(cards);
+  cards.forEach((item) => {
+    const cardElement = getCardElement(item);
+    cardsList.append(cardElement);
+  });
+});
 
 //profile elements
 const editProfileBtn = document.querySelector(".profile__edit-btn");
@@ -196,11 +213,6 @@ document.addEventListener("keydown", (evt) => {
       closeModal(openedModal); // Replace with your modal close function
     }
   }
-});
-
-initialCards.forEach(function (item) {
-  const cardElement = getCardElement(item);
-  cardsList.append(cardElement);
 });
 
 enableValidation(settings);
