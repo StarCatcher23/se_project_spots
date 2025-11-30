@@ -6,22 +6,44 @@ class Api {
     this._headers = headers;
   }
 
-  getAppInfo() {
-    return Promise.all([this.getInitialCards()]);
-  }
-
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
+  // Generic method to fetch data from any endpoint
+  _getData(endpoint) {
+    return fetch(`${this._baseUrl}/${endpoint}`, {
       headers: this._headers,
     }).then((res) => {
       if (res.ok) {
         return res.json();
       }
-      Promise.reject(`Error: ${res.status}`);
+      return Promise.reject(`Error: ${res.status}`);
     });
   }
 
-  // other methods working with the API can go here
+  // TODO-create another method like getuserinfo only need to change baseurls and we specify for all the endpoints
+  getUserInfo() {
+    return this._getData("users/me");
+  }
+
+  getInitialCards() {
+    return this._getData("cards");
+  }
+
+  // TODO-call getuserinfo in this array
+  getAppInfo() {
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+  }
+
+  editUserInfo({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ name, about }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
 }
 
 export default Api;

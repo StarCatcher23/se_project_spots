@@ -47,13 +47,43 @@ const api = new Api({
   },
 });
 
+fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer <537eed0e-557c-451f-966a-0b9255783f43",
+    "Content-Type": "application/json",
+  },
+})
+  .then((res) => res.json())
+  .then((userInfo) => {
+    console.log("User Info:", userInfo);
+    document.querySelector(".profile__name").textContent = userInfo.name;
+    document.querySelector(".profile__description").textContent =
+      userInfo.about;
+    document.querySelector(".profile__image").src = userInfo.avatar;
+  })
+  .catch((err) => console.error(err));
+//TODO-destrcuture the 2nd item in the call back in the .then()
+//TODO-destrcuture the 2nd item in the call back in the .then()
 api
   .getAppInfo()
-  .then(([cards]) => {
+  .then(([userInfo, cards]) => {
+    // TODO-Render cards (2nd item in the array)
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
+
+    //TODO- Handle user info (1st item in the array)
+    profileNameEl.textContent = userInfo.name;
+    profileDescriptionEl.textContent = userInfo.about;
+
+    // Also update avatar if you have an element for it
+    const profileAvatarEl = document.querySelector(".profile__image");
+    if (profileAvatarEl) {
+      profileAvatarEl.src = userInfo.avatar;
+      profileAvatarEl.alt = userInfo.name;
+    }
   })
   .catch(console.error);
 
