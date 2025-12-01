@@ -6,7 +6,7 @@ class Api {
     this._headers = headers;
   }
 
-  // TODO-call getuserinfo in this array
+  // called getuserinfo in this array
   getAppInfo() {
     return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
@@ -42,6 +42,7 @@ class Api {
     return this._getData("users/me");
   }
 
+  //sent a request using the PATCH method:
   editUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
@@ -50,7 +51,7 @@ class Api {
     }).then((res) => {
       if (res.ok) {
         return res.json();
-      }
+      } //handled response
       return Promise.reject(`Error: ${res.status}`);
     });
   }

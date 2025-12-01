@@ -6,6 +6,7 @@ import {
   disableButton,
 } from "../scripts/validation.js";
 import Api from "../utils/Api.js";
+import { data } from "autoprefixer";
 
 const initialCards = [
   {
@@ -200,9 +201,26 @@ newPostCloseBtn.addEventListener("click", function () {
 
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
-  profileNameEl.textContent = editProfileNameInput.value;
-  profileDescriptionEl.textContent = editProfileDescriptionInput.value;
-  closeModal(editProfileModal);
+  api
+    .editUserInfo({
+      name: editProfileNameInput.value,
+      about: editProfileDescriptionInput.value,
+    })
+    .then((data) => {
+      // ✅ Use the data returned from the server
+      profileNameEl.textContent = data.name;
+      profileDescriptionEl.textContent = data.about;
+
+      // If your API also returns the avatar, you can update it here too:
+      const profileAvatarEl = document.querySelector(".profile__image");
+      if (profileAvatarEl && data.avatar) {
+        profileAvatarEl.src = data.avatar;
+        profileAvatarEl.alt = data.name;
+      }
+
+      closeModal(editProfileModal);
+    })
+    .catch(console.error);
 }
 
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
