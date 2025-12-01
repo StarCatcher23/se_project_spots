@@ -40,6 +40,7 @@
 .profile__pencil-icon {
   width: 20px;
   height: 20px;
+  border: none;
 }
 
 .profile__column {
