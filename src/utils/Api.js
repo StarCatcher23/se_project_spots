@@ -24,7 +24,17 @@ class Api {
   }
 
   getInitialCards() {
-    return this._getData("cards");
+    return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
+      headers: {
+        authorization: "26822020-7537-483b-afd6-df8a444cb04a",
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // if the server returns an error, reject the promise
+      return Promise.reject(`Error: ${res.status}`);
+    });
   }
 
   // TODO-call getuserinfo in this array
