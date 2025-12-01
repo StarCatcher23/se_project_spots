@@ -6,21 +6,9 @@ class Api {
     this._headers = headers;
   }
 
-  // Generic method to fetch data from any endpoint
-  _getData(endpoint) {
-    return fetch(`${this._baseUrl}/${endpoint}`, {
-      headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error: ${res.status}`);
-    });
-  }
-
-  // TODO-create another method like getuserinfo only need to change baseurls and we specify for all the endpoints
-  getUserInfo() {
-    return this._getData("users/me");
+  // TODO-call getuserinfo in this array
+  getAppInfo() {
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
   getInitialCards() {
@@ -37,9 +25,21 @@ class Api {
     });
   }
 
-  // TODO-call getuserinfo in this array
-  getAppInfo() {
-    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+  // Generic method to fetch data from any endpoint
+  _getData(endpoint) {
+    return fetch(`${this._baseUrl}/${endpoint}`, {
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
+
+  // TODO-create another method like getuserinfo only need to change baseurls and we specify for all the endpoints
+  getUserInfo() {
+    return this._getData("users/me");
   }
 
   editUserInfo({ name, about }) {

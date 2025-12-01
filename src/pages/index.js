@@ -56,15 +56,14 @@ fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
 })
   .then((res) => res.json())
   .then((userInfo) => {
-    console.log("User Info:", userInfo);
     document.querySelector(".profile__name").textContent = userInfo.name;
     document.querySelector(".profile__description").textContent =
       userInfo.about;
     document.querySelector(".profile__image").src = userInfo.avatar;
   })
   .catch((err) => console.error(err));
-//TODO-destrcuture the 2nd item in the call back in the .then()
-//TODO-destrcuture the 2nd item in the call back in the .then()
+
+//destrcutured the 2nd item in the call back in the .then()
 api
   .getAppInfo()
   .then(([userInfo, cards]) => {
@@ -73,12 +72,11 @@ api
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
-
-    //TODO- Handle user info (1st item in the array)
+    //Handled user info (1st item in the array)
     profileNameEl.textContent = userInfo.name;
     profileDescriptionEl.textContent = userInfo.about;
 
-    // Also update avatar if you have an element for it
+    //  Sets the user’s avatar URL and the  attribute to their name.
     const profileAvatarEl = document.querySelector(".profile__image");
     if (profileAvatarEl) {
       profileAvatarEl.src = userInfo.avatar;
