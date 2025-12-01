@@ -97,6 +97,7 @@ const editProfileNameInput = editProfileModal.querySelector(
 const editProfileDescriptionInput = editProfileModal.querySelector(
   "#profile-description-input"
 );
+const avatarModalBtn = document.querySelector(".profile__avatar-btn");
 
 //card form elements
 const newPostBtn = document.querySelector(".profile__add-btn");
@@ -106,7 +107,6 @@ const cardSubmitBtn = newPostModal.querySelector(".modal__submit-btn");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
 const newPostImageInput = newPostModal.querySelector("#card-image-input");
 const newPostCaptionInput = newPostModal.querySelector("#card-caption-input");
-const avatarModalBtn = document.querySelector(".profile__avatar-btn");
 
 //Avatar Form elements
 const avatarModal = document.querySelector("#avatar-modal");
@@ -292,13 +292,28 @@ document.addEventListener("click", (evt) => {
   }
 });
 
-document.addEventListener("keydown", (evt) => {
-  if (evt.key === "Escape") {
-    const openedModal = document.querySelector(".modal_is-opened");
-    if (openedModal) {
-      closeModal(openedModal); // Replace with your modal close function
-    }
-  }
-});
+// TODO: finish avatar submission handler
+function handleAvatarSubmit(evt) {
+  evt.preventDefault(); // prevent default form submission
+
+  console.log(avatarInput.value);
+
+  api
+    .editAvatar(avatarInput.value) // use the correct method name
+    .then((data) => {
+      console.log(data);
+
+      // update avatar in profile
+      const profileAvatarEl = document.querySelector(".profile__image");
+      profileAvatarEl.src = data.avatar;
+      profileAvatarEl.alt = data.name;
+
+      closeModal(avatarModal); // close modal after success
+    })
+    .catch(console.error);
+}
+
+// attach listener
+avatarForm.addEventListener("submit", handleAvatarSubmit);
 
 enableValidation(settings);

@@ -42,17 +42,18 @@ class Api {
     return this._getData("users/me");
   }
 
-  //sent a request using the PATCH method:
-  editUserInfo({ name, about }) {
-    return fetch(`${this._baseUrl}/users/me`, {
+  // existing methods like getAppInfo, editUserInfo, etc.
+
+  editAvatar(avatarUrl) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({ name, about }),
+      body: JSON.stringify({ avatar: avatarUrl }),
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } //handled response
-      return Promise.reject(`Error: ${res.status}`);
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
     });
   }
 }
