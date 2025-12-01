@@ -118,6 +118,9 @@ const avatarInput = avatarModal.querySelector("#profile-avatar-input");
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
 
+//Delete form elements
+const deleteModal = document.querySelector("#delete-modal");
+
 //Preview image popup elements
 const previewModal = document.querySelector("#preview-modal");
 const previewModalCloseBtn = previewModal.querySelector(".modal__close");
@@ -144,8 +147,8 @@ function getCardElement(data) {
   });
 
   const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
-  cardDeleteBtnEl.addEventListener("click", () => {
-    cardElement.remove();
+  cardDeleteBtnEl.addEventListener("click", (evt) => {
+    handleDeleteCard(evt);
   });
 
   cardImageEl.addEventListener("click", () => {
@@ -315,5 +318,34 @@ function handleAvatarSubmit(evt) {
 
 // attach listener
 avatarForm.addEventListener("submit", handleAvatarSubmit);
+
+//delete listener
+
+let cardToDelete = null; // Store reference to the card being deleted
+
+function handleDeleteCard(evt) {
+  cardToDelete = evt.target.closest(".card"); // Save the card for later deletion
+  openModal(deleteModal); // Show confirmation modal
+}
+
+// Confirm delete on form submit
+const deleteForm = document.querySelector("#delete-form");
+deleteForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  if (cardToDelete) {
+    cardToDelete.remove(); // Delete the saved card
+    cardToDelete = null; // Reset reference
+  }
+  closeModal(deleteModal); // Close modal after deletion
+});
+
+// Optional: Cancel button logic
+const cancelBtn = deleteForm.querySelector(
+  "button[type='button'].modal__submit-btn"
+);
+cancelBtn.addEventListener("click", function () {
+  cardToDelete = null; // Clear reference
+  closeModal(deleteModal); // Just close the modal
+});
 
 enableValidation(settings);
