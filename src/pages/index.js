@@ -106,6 +106,14 @@ const cardSubmitBtn = newPostModal.querySelector(".modal__submit-btn");
 const newPostCloseBtn = newPostModal.querySelector(".modal__close-btn");
 const newPostImageInput = newPostModal.querySelector("#card-image-input");
 const newPostCaptionInput = newPostModal.querySelector("#card-caption-input");
+const avatarModalBtn = document.querySelector(".profile__avatar-btn");
+
+//Avatar Form elements
+const avatarModal = document.querySelector("#avatar-modal");
+const avatarForm = avatarModal.querySelector(".modal__form");
+const avatarSubmitBtn = avatarModal.querySelector(".modal__submit-btn");
+const avatarModalCloseBtn = avatarModal.querySelector(".modal__close-btn");
+const avatarInput = avatarModal.querySelector("#profile-avatar-input");
 
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
@@ -197,6 +205,36 @@ newPostBtn.addEventListener("click", function () {
 
 newPostCloseBtn.addEventListener("click", function () {
   closeModal(newPostModal);
+});
+
+// ─── Avatar Modal Listeners ─────────────────────────────
+
+// Open avatar modal on button click
+avatarModalBtn.addEventListener("click", () => {
+  resetValidation(avatarForm, settings); // keep consistent with other modals
+  openModal(avatarModal);
+});
+
+// Close avatar modal on close button click
+avatarModalCloseBtn.addEventListener("click", () => {
+  closeModal(avatarModal);
+});
+
+// Handle avatar form submission
+avatarForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+
+  api
+    .editAvatar(avatarInput.value) // assuming your Api class has editAvatar
+    .then((data) => {
+      // update avatar in profile
+      const profileAvatarEl = document.querySelector(".profile__image");
+      profileAvatarEl.src = data.avatar;
+      profileAvatarEl.alt = data.name;
+
+      closeModal(avatarModal);
+    })
+    .catch(console.error);
 });
 
 function handleEditProfileSubmit(evt) {

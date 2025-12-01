@@ -16,16 +16,28 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            class="profile__image"
-            src="<%=require('./images/spots-images/avatar.jpg')%>"
-            alt="Bessie Coleman"
-          />
+          <div class="profile__avatar-container">
+            <button class="profile__avatar-btn">
+              <img
+                class="profile__pencil-icon"
+                src="<%=require('./images/pencil-light.svg')%>"
+                alt="Pencil icon"
+              />
+            </button>
+            <img
+              class="profile__image"
+              src="<%=require('./images/spots-images/avatar.jpg')%>"
+              alt="Bessie Coleman"
+            />
+          </div>
           <div class="profile__column">
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
             <button type="button" class="profile__edit-btn">
-              <img src="<%=require('./images/pencil.svg')%>" alt="edit pencil"
+              <img
+                src="<%=require('./images/pencil.svg')%>"
+                alt="edit pencil"
+              />
               Edit profile
             </button>
           </div>
@@ -144,6 +156,32 @@
           <img src="#" alt="" class="modal__image" />
           <p class="modal__caption">Golden Gate Bridge</p>
         </div>
+      </div>
+    </div>
+
+    <div class="modal" id="avatar-modal">
+      <div class="modal__container">
+        <button type="button" class="modal__close-btn">
+          <img
+            src="<%=require('./images/CloseIcon.png')%>"
+            alt="EditProfileCloseIcon"
+          />
+        </button>
+        <h2 class="modal__title">Edit avatar</h2>
+        <form class="modal__form" id="edit-avatar-form" novalidate>
+          <label for="profile-avatar-input" class="modal__label">
+            Avatar
+            <input
+              id="profile-avatar-input"
+              class="modal__input"
+              name="avatar"
+              placeholder="avatar goes here"
+              required
+            />
+            <span id="profile-avatar-input-error" class="modal__error"></span>
+          </label>
+          <button type="submit" class="modal__submit-btn">Save</button>
+        </form>
       </div>
     </div>
   </body>
