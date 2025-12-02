@@ -25,6 +25,20 @@ class Api {
     });
   }
 
+  //TODO_implement Post/Cards/ similar to editAvatar(avatarUrl)
+  addCard({ name, link }) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ name, link }),
+    }).then((res) => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    });
+  }
+
   // Generic method to fetch data from any endpoint
   _getData(endpoint) {
     return fetch(`${this._baseUrl}/${endpoint}`, {
@@ -37,7 +51,7 @@ class Api {
     });
   }
 
-  // TODO-create another method like getuserinfo only need to change baseurls and we specify for all the endpoints
+  // created another method like getuserinfo only need to change baseurls and we specify for all the endpoints
   getUserInfo() {
     return this._getData("users/me");
   }
@@ -56,6 +70,18 @@ class Api {
       return res.json();
     });
   }
-}
+
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    });
+  }
+} // <-- this closes the class
 
 export default Api;

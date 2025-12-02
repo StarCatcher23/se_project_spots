@@ -64,6 +64,26 @@ fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
   })
   .catch((err) => console.error(err));
 
+fetch("https://around-api.en.tripleten-services.com/v1/cards", {
+  method: "POST",
+  headers: {
+    authorization: "26822020-7537-483b-afd6-df8a444cb04a",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: "My New Card",
+    link: "https://media.istockphoto.com/id/2119790745/photo/a-mother-and-her-daughter-looking-at-the-sunset-view-of-the-eiffel-tower.jpg?s=612x612&w=0&k=20&c=dSZnGOODUJa7s-yARPue-Fo5RMmpX3ojPolC4Kg-YiA=",
+  }),
+})
+  .then((res) => {
+    if (!res.ok) {
+      return Promise.reject(`Error: ${res.status}`);
+    }
+    return res.json();
+  })
+  .then((data) => console.log("Card added:", data))
+  .catch((err) => console.error(err));
+
 //destrcutured the 2nd item in the call back in the .then()
 api
   .getAppInfo()
@@ -119,7 +139,8 @@ const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
 
 //Delete form elements
-const deleteModal = document.querySelector("#delete-modal");
+const deleteModal = document.getElementById("delete-modal");
+const deleteForm = document.querySelector(".modal__form");
 
 //Preview image popup elements
 const previewModal = document.querySelector("#preview-modal");
@@ -127,10 +148,13 @@ const previewModalCloseBtn = previewModal.querySelector(".modal__close");
 const previewImageEl = previewModal.querySelector(".modal__image");
 const previewCaptionEl = previewModal.querySelector(".modal__caption");
 
+//Card Related Elements
 const cardTemplate = document
   .querySelector("#card-template")
   .content.querySelector(".card");
 const cardsList = document.querySelector(".cards__list");
+
+let selectedCard, selectedCardId;
 
 function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
@@ -146,9 +170,16 @@ function getCardElement(data) {
     cardLikeBtnEl.classList.toggle("card__like-btn_active");
   });
 
-  const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
+  function handleDeleteSubmit(evt) {
+    evt.preventDefault();
+    api
+      .deleteCard(selectedCardId)
+      .then(() => {})
+      .catch(console.error);
+  }
+
   cardDeleteBtnEl.addEventListener("click", (evt) => {
-    handleDeleteCard(evt);
+    handleDeleteCard(cardElement, data._id);
   });
 
   cardImageEl.addEventListener("click", () => {
@@ -323,29 +354,33 @@ avatarForm.addEventListener("submit", handleAvatarSubmit);
 
 let cardToDelete = null; // Store reference to the card being deleted
 
-function handleDeleteCard(evt) {
-  cardToDelete = evt.target.closest(".card"); // Save the card for later deletion
-  openModal(deleteModal); // Show confirmation modal
+function handleDeleteCard(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  console.log(cardId);
+  openModal(deleteModal); // show modal
 }
 
 // Confirm delete on form submit
-const deleteForm = document.querySelector("#delete-form");
-deleteForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  if (cardToDelete) {
-    cardToDelete.remove(); // Delete the saved card
-    cardToDelete = null; // Reset reference
-  }
-  closeModal(deleteModal); // Close modal after deletion
-});
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCard)
+    .then(() => {})
+    .catch(console.error);
+}
 
-// Optional: Cancel button logic
 const cancelBtn = deleteForm.querySelector(
-  "button[type='button'].modal__submit-btn"
+  "button[type='button'].modal__cancel-btn" // Changed class name here
 );
-cancelBtn.addEventListener("click", function () {
-  cardToDelete = null; // Clear reference
-  closeModal(deleteModal); // Just close the modal
-});
+
+if (cancelBtn) {
+  cancelBtn.addEventListener("click", function () {
+    cardToDelete = null;
+    closeModal(deleteModal);
+  });
+} else {
+  console.warn("Cancel button not found for delete form.");
+}
 
 enableValidation(settings);
