@@ -140,7 +140,7 @@ const profileDescriptionEl = document.querySelector(".profile__description");
 
 //Delete form elements
 const deleteModal = document.getElementById("delete-modal");
-const deleteForm = document.querySelector(".modal__form");
+const deleteForm = deleteModal.querySelector(".modal__form");
 
 //Preview image popup elements
 const previewModal = document.querySelector("#preview-modal");
@@ -177,7 +177,7 @@ function getCardElement(data) {
       .then(() => {})
       .catch(console.error);
   }
-
+  const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
   cardDeleteBtnEl.addEventListener("click", (evt) => {
     handleDeleteCard(cardElement, data._id);
   });
@@ -371,7 +371,7 @@ function handleDeleteSubmit(evt) {
 }
 
 const cancelBtn = deleteForm.querySelector(
-  "button[type='button'].modal__cancel-btn" // Changed class name here
+  ".modal__cancel-btn" // Changed class name here
 );
 
 if (cancelBtn) {

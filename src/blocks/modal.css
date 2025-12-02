@@ -168,6 +168,39 @@
   margin: 0;
 }
 
+.modal__submit-btn {
+  background-color: #ff6565;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 156px;
+  height: 52px;
+}
+
+.modal__cancel-btn {
+  font-size: 16px;
+  background-color: #ff6565;
+  border-radius: 8px;
+  border-color: #212121;
+  background-color: white;
+  width: 156px;
+  height: 52px;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* <-- centers buttons */
+  gap: 12px; /* space between delete & cancel buttons */
+}
+
+.delete-title {
+  font-size: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* <-- centers buttons */
+  gap: 12px; /* space between delete & cancel buttons */
+}
+
 @media screen and (max-width: 480px) {
   .modal__caption {
     font-size: 16px;
