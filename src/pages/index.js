@@ -84,6 +84,26 @@ fetch("https://around-api.en.tripleten-services.com/v1/cards", {
   .then((data) => console.log("Card added:", data))
   .catch((err) => console.error(err));
 
+function deleteCard(cardId) {
+  fetch(`https://around-api.en.tripleten-services.com/v1/cards/${cardId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      // Add other necessary headers like Authorization if needed
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete the card");
+      }
+      console.log("Card deleted successfully");
+      // You can add additional logic here, like removing the card from the DOM
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
 //destrcutured the 2nd item in the call back in the .then()
 api
   .getAppInfo()
@@ -154,34 +174,31 @@ const cardTemplate = document
   .content.querySelector(".card");
 const cardsList = document.querySelector(".cards__list");
 
-let selectedCard, selectedCardId;
-
 function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardTitleEl = cardElement.querySelector(".card__title");
   const cardImageEl = cardElement.querySelector(".card__image");
+  const cardLikeBtnEl = cardElement.querySelector(".card__like-btn");
+  const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
 
+  // Set card content
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
-  const cardLikeBtnEl = cardElement.querySelector(".card__like-btn");
+  // Like button toggle
   cardLikeBtnEl.addEventListener("click", () => {
     cardLikeBtnEl.classList.toggle("card__like-btn_active");
   });
 
-  function handleDeleteSubmit(evt) {
-    evt.preventDefault();
-    api
-      .deleteCard(selectedCardId)
-      .then(() => {})
-      .catch(console.error);
-  }
-  const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
-  cardDeleteBtnEl.addEventListener("click", (evt) => {
-    handleDeleteCard(cardElement, data._id);
+  // Delete button opens delete modal
+  cardDeleteBtnEl.addEventListener("click", () => {
+    selectedCard = cardElement;
+    selectedCardId = data._id; // Make sure your API returns _id
+    openModal(deleteModal);
   });
 
+  // Preview image modal
   cardImageEl.addEventListener("click", () => {
     previewImageEl.src = data.link;
     previewImageEl.alt = data.name;
@@ -350,9 +367,11 @@ function handleAvatarSubmit(evt) {
 // attach listener
 avatarForm.addEventListener("submit", handleAvatarSubmit);
 
-//delete listener
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 let cardToDelete = null; // Store reference to the card being deleted
+let selectedCard = null;
+let selectedCardId = null;
 
 function handleDeleteCard(cardElement, cardId) {
   selectedCard = cardElement;
@@ -361,26 +380,39 @@ function handleDeleteCard(cardElement, cardId) {
   openModal(deleteModal); // show modal
 }
 
-// Confirm delete on form submit
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+
   api
-    .deleteCard(selectedCard)
-    .then(() => {})
-    .catch(console.error);
+    .deleteCard(selectedCardId)
+    .then(() => {
+      // ✅ remove the card from the DOM
+      if (selectedCard) {
+        selectedCard.remove();
+        selectedCard = null;
+        selectedCardId = null;
+      }
+
+      // ✅ close the modal
+      closeModal(deleteModal);
+    })
+    .catch((err) => {
+      console.error("Delete failed:", err);
+    });
 }
 
-const cancelBtn = deleteForm.querySelector(
-  ".modal__cancel-btn" // Changed class name here
-);
+const cancelBtn = deleteForm.querySelector(".modal__cancel-btn");
 
 if (cancelBtn) {
   cancelBtn.addEventListener("click", function () {
-    cardToDelete = null;
+    // ✅ use the same variables consistently
+    selectedCard = null;
+    selectedCardId = null;
     closeModal(deleteModal);
   });
 } else {
   console.warn("Cancel button not found for delete form.");
 }
 
+// ✅ always outside the if/else
 enableValidation(settings);
