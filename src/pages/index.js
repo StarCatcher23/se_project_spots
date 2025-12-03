@@ -323,13 +323,17 @@ function handleAddCardSubmit(evt) {
     name: captionInput,
     link: imageLink,
   };
+  api
+    .addCard(newCardData)
+    .then((cardData) => {
+      const newCardElement = getCardElement(cardData);
+      cardsList.prepend(newCardElement); // Adds the new card to the top of the list
 
-  const newCardElement = getCardElement(newCardData);
-  cardsList.prepend(newCardElement); // Adds the new card to the top of the list
-
-  newPostForm.reset(); // Clears the form inputs
-  disableButton(cardSubmitBtn, settings);
-  closeModal(newPostModal);
+      newPostForm.reset(); // Clears the form inputs
+      disableButton(cardSubmitBtn, settings);
+      closeModal(newPostModal);
+    })
+    .catch(console.error);
 }
 
 newPostForm.addEventListener("submit", handleAddCardSubmit);
