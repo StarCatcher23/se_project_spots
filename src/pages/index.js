@@ -174,6 +174,28 @@ const cardTemplate = document
   .content.querySelector(".card");
 const cardsList = document.querySelector(".cards__list");
 
+function handleLike(evt, id) {
+  const likeBtn = evt.target;
+
+  // 1. Check whether card is currently liked
+  const isLiked = likeBtn.classList.contains("card__like-btn_active");
+
+  // 2. Call the changeLikeStatus method with the opposite of current state
+  api
+    .changeLikeStatus(id, !isLiked) // <-- use id, not data._id
+    .then((updatedCard) => {
+      // 3. Handle the response: update the button class based on server data
+      if (updatedCard.likes?.some((user) => user._id === currentUserId)) {
+        likeBtn.classList.add("card__like-btn_active");
+      } else {
+        likeBtn.classList.remove("card__like-btn_active");
+      }
+    })
+    .catch((err) => {
+      console.error("Like toggle failed:", err);
+    });
+}
+
 function getCardElement(data) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardTitleEl = cardElement.querySelector(".card__title");
@@ -181,15 +203,18 @@ function getCardElement(data) {
   const cardLikeBtnEl = cardElement.querySelector(".card__like-btn");
   const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
 
+  // If the card is already liked by current user, set active class
+  if (data.likes?.some((user) => user._id === currentUserId)) {
+    cardLikeBtnEl.classList.add("card__like-btn_active");
+  }
+
   // Set card content
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
 
   // Like button toggle
-  cardLikeBtnEl.addEventListener("click", () => {
-    cardLikeBtnEl.classList.toggle("card__like-btn_active");
-  });
+  cardLikeBtnEl.addEventListener("click", (evt) => handleLike(evt, data._id));
 
   // Delete button opens delete modal
   cardDeleteBtnEl.addEventListener("click", () => {

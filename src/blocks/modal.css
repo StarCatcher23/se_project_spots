@@ -25,6 +25,7 @@
 .modal_is-opened {
   opacity: 1;
   visibility: visible;
+  display: flex;
 }
 
 .modal__container {
@@ -188,15 +189,15 @@
 
 .modal__form {
   display: flex;
-  flex-direction: row;
-  justify-content: center; /* <-- centers buttons */
+  flex-direction: column;
+  align-items: flex-start; /* <-- centers buttons */
   gap: 12px; /* space between delete & cancel buttons */
 }
 
 .delete-title {
   font-size: 24px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center; /* <-- centers buttons */
   gap: 12px; /* space between delete & cancel buttons */
 }
