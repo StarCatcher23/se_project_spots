@@ -126,6 +126,15 @@ api
   })
   .catch(console.error);
 
+api
+  .getUserInfo()
+  .then((userData) => {
+    currentUserId = userData._id; // store the ID globally
+    console.log("Logged in user ID:", currentUserId);
+    renderInitialCards(); // safe to render cards now
+  })
+  .catch((err) => console.error("Failed to fetch user info:", err));
+
 //profile elements
 const editProfileBtn = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.querySelector("#edit-profile-modal");
@@ -174,26 +183,51 @@ const cardTemplate = document
   .content.querySelector(".card");
 const cardsList = document.querySelector(".cards__list");
 
-function handleLike(evt, id) {
-  const likeBtn = evt.target;
+// Define currentUserId globally once when app loads
+let currentUserId = null;
+// 1. Define renderInitialCards at the top level
+function renderInitialCards(cards) {
+  cards.forEach((item) => {
+    const cardElement = getCardElement(item);
+    cardsList.append(cardElement);
+  });
+  console.log("Initial cards rendered.");
+}
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cardsData]) => {
+    // Destructure the results from both promises
+    currentUserId = userData._id; // store the ID globally
+    console.log("Logged in user ID:", currentUserId);
+    renderInitialCards(cardsData); // Pass the fetched cardsData to the function
+  })
+  .catch((err) => console.error("Failed to initialize app:", err)); // More general error message
+api
+  .getUserInfo()
+  .then((userData) => {
+    currentUserId = userData._id;
+    console.log("Logged in user ID:", currentUserId);
+    renderInitialCards(); // make sure this is defined before calling
+  })
+  .catch((err) => console.error("Failed to fetch user info:", err));
 
-  // 1. Check whether card is currently liked
+function handleLike(evt, cardId) {
+  const likeBtn = evt.currentTarget;
   const isLiked = likeBtn.classList.contains("card__like-btn_active");
 
-  // 2. Call the changeLikeStatus method with the opposite of current state
   api
-    .changeLikeStatus(id, !isLiked) // <-- use id, not data._id
+    .changeLikeStatus(cardId, !isLiked)
     .then((updatedCard) => {
-      // 3. Handle the response: update the button class based on server data
-      if (updatedCard.likes?.some((user) => user._id === currentUserId)) {
+      const isLikedByMe = updatedCard.likes.some(
+        (likeUser) => likeUser._id === currentUserId
+      );
+
+      if (isLikedByMe) {
         likeBtn.classList.add("card__like-btn_active");
       } else {
         likeBtn.classList.remove("card__like-btn_active");
       }
     })
-    .catch((err) => {
-      console.error("Like toggle failed:", err);
-    });
+    .catch((err) => console.error("Like toggle failed:", err));
 }
 
 function getCardElement(data) {
