@@ -14,7 +14,7 @@ class Api {
   getInitialCards() {
     return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
       headers: {
-        authorization: "26822020-7537-483b-afd6-df8a444cb04a",
+        authorization: "ce3b90d8-db1a-4790-bc0f-c4d7aedaa547",
       },
     }).then((res) => {
       if (res.ok) {
@@ -63,6 +63,19 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ avatar: avatarUrl }),
+    }).then((res) => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    });
+  }
+
+  editUserInfo({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ name, about }),
     }).then((res) => {
       if (!res.ok) {
         return Promise.reject(`Error: ${res.status}`);

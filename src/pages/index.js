@@ -8,6 +8,8 @@ import {
 import Api from "../utils/Api.js";
 import { data } from "autoprefixer";
 
+let currentUserId = null;
+
 const initialCards = [
   {
     name: "Golden Gate Bridge",
@@ -43,46 +45,10 @@ const initialCards = [
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "26822020-7537-483b-afd6-df8a444cb04a",
+    authorization: "ce3b90d8-db1a-4790-bc0f-c4d7aedaa547",
     "Content-Type": "application/json",
   },
 });
-
-fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
-  method: "GET",
-  headers: {
-    authorization: "26822020-7537-483b-afd6-df8a444cb04a",
-    "Content-Type": "application/json",
-  },
-})
-  .then((res) => res.json())
-  .then((userInfo) => {
-    document.querySelector(".profile__name").textContent = userInfo.name;
-    document.querySelector(".profile__description").textContent =
-      userInfo.about;
-    document.querySelector(".profile__image").src = userInfo.avatar;
-  })
-  .catch((err) => console.error(err));
-
-fetch("https://around-api.en.tripleten-services.com/v1/cards", {
-  method: "POST",
-  headers: {
-    authorization: "26822020-7537-483b-afd6-df8a444cb04a",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    name: "My New Card",
-    link: "https://media.istockphoto.com/id/2119790745/photo/a-mother-and-her-daughter-looking-at-the-sunset-view-of-the-eiffel-tower.jpg?s=612x612&w=0&k=20&c=dSZnGOODUJa7s-yARPue-Fo5RMmpX3ojPolC4Kg-YiA=",
-  }),
-})
-  .then((res) => {
-    if (!res.ok) {
-      return Promise.reject(`Error: ${res.status}`);
-    }
-    return res.json();
-  })
-  .then((data) => console.log("Card added:", data))
-  .catch((err) => console.error(err));
 
 function deleteCard(cardId) {
   fetch(`https://around-api.en.tripleten-services.com/v1/cards/${cardId}`, {
@@ -110,6 +76,7 @@ api
   .then(([userInfo, cards]) => {
     // TODO-Render cards (2nd item in the array)
     cards.forEach((item) => {
+      console.log(cards);
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
@@ -184,7 +151,7 @@ const cardTemplate = document
 const cardsList = document.querySelector(".cards__list");
 
 // Define currentUserId globally once when app loads
-let currentUserId = null;
+
 // 1. Define renderInitialCards at the top level
 function renderInitialCards(cards) {
   cards.forEach((item) => {
@@ -193,22 +160,6 @@ function renderInitialCards(cards) {
   });
   console.log("Initial cards rendered.");
 }
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, cardsData]) => {
-    // Destructure the results from both promises
-    currentUserId = userData._id; // store the ID globally
-    console.log("Logged in user ID:", currentUserId);
-    renderInitialCards(cardsData); // Pass the fetched cardsData to the function
-  })
-  .catch((err) => console.error("Failed to initialize app:", err)); // More general error message
-api
-  .getUserInfo()
-  .then((userData) => {
-    currentUserId = userData._id;
-    console.log("Logged in user ID:", currentUserId);
-    renderInitialCards(); // make sure this is defined before calling
-  })
-  .catch((err) => console.error("Failed to fetch user info:", err));
 
 function handleLike(evt, cardId) {
   const likeBtn = evt.currentTarget;
@@ -217,11 +168,9 @@ function handleLike(evt, cardId) {
   api
     .changeLikeStatus(cardId, !isLiked)
     .then((updatedCard) => {
-      const isLikedByMe = updatedCard.likes.some(
-        (likeUser) => likeUser._id === currentUserId
-      );
+      console.log(updatedCard);
 
-      if (isLikedByMe) {
+      if (updatedCard.owner === currentUserId) {
         likeBtn.classList.add("card__like-btn_active");
       } else {
         likeBtn.classList.remove("card__like-btn_active");
@@ -238,7 +187,7 @@ function getCardElement(data) {
   const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
 
   // If the card is already liked by current user, set active class
-  if (data.likes?.some((user) => user._id === currentUserId)) {
+  if (data.owner === currentUserId) {
     cardLikeBtnEl.classList.add("card__like-btn_active");
   }
 
@@ -445,6 +394,7 @@ function handleDeleteCard(cardElement, cardId) {
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+  console.log("yes deleted");
 
   api
     .deleteCard(selectedCardId)
