@@ -5,6 +5,7 @@ import {
   settings,
   disableButton,
 } from "../scripts/validation.js";
+import { setButtonText } from "../utils/helpers.js";
 import Api from "../utils/Api.js";
 import { data } from "autoprefixer";
 
@@ -298,6 +299,10 @@ avatarForm.addEventListener("submit", (evt) => {
 
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();
+  //change text content to "saving.."
+  const submitBtn = evt.submitter;
+  // submitBtn.textContent = "Saving...";
+  setButtonText(submitBtn, true);
   api
     .editUserInfo({
       name: editProfileNameInput.value,
@@ -316,10 +321,16 @@ function handleEditProfileSubmit(evt) {
       }
 
       closeModal(editProfileModal);
+      //TODO- Change text content to "Save"
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      // ✅ Restore button text via helper
+      setButtonText(submitBtn, false); // internally sets "Save"
+    });
 }
 
+//TODO- implement loading text for all other form submissions
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
 
 function handleAddCardSubmit(evt) {
