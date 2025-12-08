@@ -42,9 +42,13 @@ By leveraging these technologies, the project achieves consistent visual present
 - [Link to Github pages](https://github.com/StarCatcher23/StarCatcher23.git)
   (https://StarCatcher23.github.io/se_project_spots)
 
-**Powerpoint recording**
+## Project Pitch Videos
 
-- [Link to my project recording on powerpoint](https://1drv.ms/p/c/ae9010f8b4f8eeed/EZnjZHwFW11EmKOYyJzG3oQBmS1BnvCC5CemCCbpkYPuHA?e=VhywKW)
+Check out these videos, where I describe my project
+and some challenges I faced while building it:
+
+- [Spots-Initial Setup](https://1drv.ms/p/c/ae9010f8b4f8eeed/EZnjZHwFW11EmKOYyJzG3oQBmS1BnvCC5CemCCbpkYPuHA?e=VhywKW)
+- [Sorim Tim-ProjectPitch-Spots Web](ADD_LINK_HERE)
 
 **Images**
 
