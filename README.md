@@ -48,7 +48,8 @@ Check out these videos, where I describe my project
 and some challenges I faced while building it:
 
 - [Spots-Initial Setup](https://1drv.ms/p/c/ae9010f8b4f8eeed/EZnjZHwFW11EmKOYyJzG3oQBmS1BnvCC5CemCCbpkYPuHA?e=VhywKW)
-- [Sorim Tim-ProjectPitch-Spots Web](ADD_LINK_HERE)
+
+- [Sorim Tim-ProjectPitch-Spots Web](https://drive.google.com/file/d/1nHZ2HproAxDsyPa8jNmq3rdNuyaKhpRA/view?usp=sharing)
 
 **Images**
 
