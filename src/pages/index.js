@@ -7,7 +7,6 @@ import {
 } from "../scripts/validation.js";
 import { setButtonText } from "../utils/helpers.js";
 import Api from "../utils/Api.js";
-import { data } from "autoprefixer";
 
 let currentUserId = null;
 
@@ -75,15 +74,16 @@ function deleteCard(cardId) {
 api
   .getAppInfo()
   .then(([userInfo, cards]) => {
-    // TODO-Render cards (2nd item in the array)
-    cards.forEach((item) => {
-      console.log(cards);
-      const cardElement = getCardElement(item);
-      cardsList.append(cardElement);
-    });
     //Handled user info (1st item in the array)
     profileNameEl.textContent = userInfo.name;
     profileDescriptionEl.textContent = userInfo.about;
+    currentUserId = userInfo._id;
+
+    // TODO-Render cards (2nd item in the array)
+    cards.forEach((item) => {
+      const cardElement = getCardElement(item);
+      cardsList.append(cardElement);
+    });
 
     //  Sets the user’s avatar URL and the  attribute to their name.
     const profileAvatarEl = document.querySelector(".profile__image");
@@ -93,15 +93,6 @@ api
     }
   })
   .catch(console.error);
-
-api
-  .getUserInfo()
-  .then((userData) => {
-    currentUserId = userData._id; // store the ID globally
-    console.log("Logged in user ID:", currentUserId);
-    renderInitialCards(); // safe to render cards now
-  })
-  .catch((err) => console.error("Failed to fetch user info:", err));
 
 //profile elements
 const editProfileBtn = document.querySelector(".profile__edit-btn");
@@ -153,25 +144,18 @@ const cardsList = document.querySelector(".cards__list");
 
 // Define currentUserId globally once when app loads
 
-// 1. Define renderInitialCards at the top level
-function renderInitialCards(cards) {
-  cards.forEach((item) => {
-    const cardElement = getCardElement(item);
-    cardsList.append(cardElement);
-  });
-  console.log("Initial cards rendered.");
-}
+// Example: Assuming 'api.getInitialCards()' fetches the card
 
 function handleLike(evt, cardId) {
   const likeBtn = evt.currentTarget;
   const isLiked = likeBtn.classList.contains("card__like-btn_active");
 
+  console.log(isLiked);
+
   api
     .changeLikeStatus(cardId, !isLiked)
     .then((updatedCard) => {
-      console.log(updatedCard);
-
-      if (updatedCard.owner === currentUserId) {
+      if (!isLiked && updatedCard.owner === currentUserId) {
         likeBtn.classList.add("card__like-btn_active");
       } else {
         likeBtn.classList.remove("card__like-btn_active");
@@ -188,7 +172,7 @@ function getCardElement(data) {
   const cardDeleteBtnEl = cardElement.querySelector(".card__delete-btn");
 
   // If the card is already liked by current user, set active class
-  if (data.owner === currentUserId) {
+  if (data.isLiked && data.owner === currentUserId) {
     cardLikeBtnEl.classList.add("card__like-btn_active");
   }
 
@@ -196,6 +180,8 @@ function getCardElement(data) {
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
   cardTitleEl.textContent = data.name;
+
+  // hanlde data.isLiked
 
   // Like button toggle
   cardLikeBtnEl.addEventListener("click", (evt) => handleLike(evt, data._id));
@@ -392,16 +378,8 @@ avatarForm.addEventListener("submit", handleAvatarSubmit);
 
 deleteForm.addEventListener("submit", handleDeleteSubmit);
 
-let cardToDelete = null; // Store reference to the card being deleted
 let selectedCard = null;
 let selectedCardId = null;
-
-function handleDeleteCard(cardElement, cardId) {
-  selectedCard = cardElement;
-  selectedCardId = cardId;
-  console.log(cardId);
-  openModal(deleteModal); // show modal
-}
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
