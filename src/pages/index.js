@@ -50,26 +50,6 @@ const api = new Api({
   },
 });
 
-function deleteCard(cardId) {
-  fetch(`https://around-api.en.tripleten-services.com/v1/cards/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      // Add other necessary headers like Authorization if needed
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to delete the card");
-      }
-      console.log("Card deleted successfully");
-      // You can add additional logic here, like removing the card from the DOM
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-
 //destrcutured the 2nd item in the call back in the .then()
 api
   .getAppInfo()
@@ -149,8 +129,6 @@ const cardsList = document.querySelector(".cards__list");
 function handleLike(evt, cardId) {
   const likeBtn = evt.currentTarget;
   const isLiked = likeBtn.classList.contains("card__like-btn_active");
-
-  console.log(isLiked);
 
   api
     .changeLikeStatus(cardId, !isLiked)
@@ -307,7 +285,6 @@ function handleEditProfileSubmit(evt) {
       }
 
       closeModal(editProfileModal);
-      //TODO- Change text content to "Save"
     })
     .catch(console.error)
     .finally(() => {
@@ -316,7 +293,6 @@ function handleEditProfileSubmit(evt) {
     });
 }
 
-//TODO- implement loading text for all other form submissions
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
 
 function handleAddCardSubmit(evt) {
@@ -356,13 +332,9 @@ document.addEventListener("click", (evt) => {
 function handleAvatarSubmit(evt) {
   evt.preventDefault(); // prevent default form submission
 
-  console.log(avatarInput.value);
-
   api
     .editAvatar(avatarInput.value) // use the correct method name
     .then((data) => {
-      console.log(data);
-
       // update avatar in profile
       const profileAvatarEl = document.querySelector(".profile__image");
       profileAvatarEl.src = data.avatar;
@@ -374,8 +346,6 @@ function handleAvatarSubmit(evt) {
 }
 
 // attach listener
-avatarForm.addEventListener("submit", handleAvatarSubmit);
-
 deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 let selectedCard = null;
@@ -383,7 +353,6 @@ let selectedCardId = null;
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
-  console.log("yes deleted");
 
   api
     .deleteCard(selectedCardId)
